@@ -1,9 +1,7 @@
 # smartChat
 多人在线聊天网站微应用
 
-使用node.js作为后端开发语言
-使用react.js作为前端开发框架
-运行
+[github地址](https://github.com/tKlint/smartChat)
 
 #### 开发语言&框架
 
@@ -15,17 +13,21 @@
 
 #### Editor.md directory
 
-    smartChart
+    smartChart/
             view/
-								index.html
+		    index.html
             css/
-								style.css
-						index.js
-						package.json
-						package-lock.json
-						requestHandlers.js
-						router.js
-						server.js
-						socket.js
-						README.md
+		    style.css
+	    	index.js
+	    	package.json
+	    	package-lock.json
+	    	requestHandlers.js
+	    	router.js
+	    	server.js
+	    	socket.js
+	    	README.md
             ...
+	    
+#### 依赖安装
+
+执行命令：`npm install`
