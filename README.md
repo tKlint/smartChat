@@ -11,7 +11,7 @@
 - Socket.io
 - MySQL
 
-#### Editor.md directory
+#### 目录结构
 
     smartChart/
             view/
