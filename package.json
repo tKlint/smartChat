@@ -9,9 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "formidable": "^1.2.2",
-    "uuid": "^8.3.2",
     "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "redis": "^3.1.2",
+    "uuid": "^8.3.2",
     "ws": "^7.5.3"
   }
 }
