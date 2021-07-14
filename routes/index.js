@@ -26,7 +26,7 @@ router.get('/about', function (req, res) {
   res.send('About birds');
 });
 
-router.post('/upload', upload.uploadFile)
+router.post('/upload', upload.uploadFile);
 
 /**
  * 404

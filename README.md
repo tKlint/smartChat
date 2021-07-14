@@ -1,5 +1,5 @@
 # smartChat
-多人在线聊天网站微应用
+A simple back-end server Design By NodeJS
 
 [github地址](https://github.com/tKlint/smartChat)
 

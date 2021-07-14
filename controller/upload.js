@@ -4,15 +4,7 @@ const path = require('path');
 const uuid = require('uuid');
 const fs = require('fs');
 
-class BaseController {  
-    resolve(){  
-        return new Proxy(this, {  
-            get(target, name) {  
-                return target[name].bind(target)  
-            }  
-        })  
-    }  
-}
+const BaseController = require('../libs/BaseController');
 
 /**
  * upload file class
