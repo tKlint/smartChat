@@ -5,5 +5,6 @@ class BaseController {
                 return target[name].bind(target)  
             }  
         })  
-    }  
+    }
 }
+module.exports = BaseController;
