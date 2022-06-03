@@ -30,6 +30,7 @@ app.use('/temp', express.static(path.join(__dirname, 'temp')));
  */
 app.all('/', async (req, res) => {
     const welcomePage = await fs.readFileSync(`${__dirname}/public/welcome.html`);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(welcomePage);
 });
 /**
