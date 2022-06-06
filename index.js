@@ -2,11 +2,14 @@ const express = require('express');
 const path = require("path");
 const fs = require('fs');
 const http = require('http');
-
 const wss = require('./socket');
 const router = require("./routes");
-
+const bodyParser = require('body-parser');
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 /**
  * 服务端口
  */
@@ -31,7 +34,7 @@ app.use('/temp', express.static(path.join(__dirname, 'temp')));
 app.all('/', async (req, res) => {
     const welcomePage = await fs.readFileSync(`${__dirname}/public/welcome.html`);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.send(welcomePage);
+    res.status(200).send(welcomePage);
 });
 /**
  * 挂载router
