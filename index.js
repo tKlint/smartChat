@@ -4,7 +4,6 @@ const fs = require('fs');
 const http = require('http');
 const wss = require('./socket');
 const router = require("./routes");
-const bodyParser = require('body-parser');
 const app = express();
 
 app.use(express.json());

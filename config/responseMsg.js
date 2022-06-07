@@ -1,0 +1,10 @@
+
+const RESPONSE_STATUS_CODE = {
+    NO_ACCESS: 401,
+    MISS_PARAMS: 406,
+    RESULT_FAILED: 403,
+    RESULT_SUCCESS: 200
+}
+module.exports = {
+    RESPONSE_STATUS_CODE
+}
