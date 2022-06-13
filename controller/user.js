@@ -4,6 +4,7 @@ const uuid = require('uuid');
 const { getKey, setValue } = require('../redis/index');
 const { parserResult } = require('../util/responseParser');
 const { RESPONSE_STATUS_CODE } = require('../config');
+
 class User extends BaseController {
 
     mockUser = [
@@ -12,17 +13,17 @@ class User extends BaseController {
             uuid: '3ac2dad3dawx2289d',
             account: '123456',
             password: '123456',
-            active_status: 0,
-            nick_name: '大咩',
-            avatar_url: '',
+            activeStatus: 0,
+            nickName: '大咩',
+            avatarUrl: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F-4o3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F9f510fb30f2442a7f58b73ffd043ad4bd01302e6.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1657704788&t=aed36925fd67af355e1896f87eddba1a',
         }, {
             id: 1,
             uuid: '3ac2dad3dawx2289d',
             account: '654321',
             password: '654321',
-            active_status: 0,
-            nick_name: 'bigine',
-            avatar_url: '',
+            activeStatus: 0,
+            nickName: 'bigine',
+            avatarUrl: '',
         }
     ];
 
@@ -43,8 +44,8 @@ class User extends BaseController {
                 return response.send(parserResult([], '账号或密码错误', RESPONSE_STATUS_CODE.RESULT_FAILED));
             }
             const accessToken = uuid.v1();
-            setValue(accessToken, currentUser);
-            response.send(parserResult({
+            setValue(accessToken, JSON.stringify(currentUser));
+            return response.send(parserResult({
                 accessToken,
             }, '登录成功'));
         } else if (loginType === 'email') {
@@ -71,6 +72,16 @@ class User extends BaseController {
     }
     async register() {
 
+    }
+     /**
+     * 登录
+     * @param {Request} request 
+     * @param {Response} response 
+     */
+    async getUerInfo(request, response) {
+        const accessToken = request.headers['access-token'];
+        const currentUser = await getKey(accessToken);
+        return response.send(parserResult([JSON.parse(currentUser)], '用户查询成功'));
     }
 }
 

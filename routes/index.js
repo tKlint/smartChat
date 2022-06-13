@@ -47,7 +47,9 @@ router.post('/about', function (req, res) {
 
 router.post('/upload', upload.uploadFile);
 
-router.post('/login', user.login)
+router.post('/login', user.login);
+
+router.get('/getUserInfo', user.getUerInfo);
 
 /**
  * 404
