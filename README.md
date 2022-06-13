@@ -31,3 +31,4 @@ A simple back-end server Design By NodeJS
 #### 依赖安装
 
 执行命令：`npm install`
+安装并启动redis 设置端口6379
