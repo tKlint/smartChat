@@ -6,6 +6,8 @@ const client = redis.createClient({
 	host: '127.0.0.1'
 });
 
+// client.on_connect
+
 /**
  * 读取redis
  * @param {string} key key
@@ -38,7 +40,16 @@ const setValue = (key, value, expire) => {
 	}
 }
 
+/**
+ * 删除key		
+ * @param {string} key redis key
+ */
+const delKey = (key) => {
+	client.del(`${key}`)
+}
+
 module.exports = {
 	getKey,
-	setValue
+	setValue,
+	delKey
 };

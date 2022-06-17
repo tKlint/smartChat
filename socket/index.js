@@ -1,8 +1,11 @@
 const WebSocket = require('ws');
+const { setValue } = require('../redis');
 
 const { deCodeFormUrl } =  require('../util');
 
-const wss = new WebSocket.Server({ noServer: true });
+const wss = new WebSocket.Server({ 
+    port: 3002
+ });
 
 /**
  * online people
@@ -16,13 +19,16 @@ wss.on('connection', (ws, request) => {
     // 在线人数
     online ++;
     // 请求的完整url
-    const { url } = request;
+    const { url, uuid } = request;
+
     // 获取请求的参数
     const requestParms = deCodeFormUrl(url);
     // 存放socket
     if (!ws.clintId) {
         ws.clintId = requestParms.clintId;
     }
+    setValue(`${uuid}-clint-id`, ws.clintId);
+
     /**
      * incomeing message event
      */
@@ -35,9 +41,10 @@ wss.on('connection', (ws, request) => {
         })
         ws.send(messageStringify);
         wss.clients.forEach(socket => {
-            if (socket.clintId === to && socket.readyState === 1) {
-                socket.send(messageStringify);
-            }
+            socket.send(messageStringify);
+            // if (socket.clintId === to && socket.readyState === 1) {
+            //     socket.send(messageStringify);
+            // }
         });
     });
     /**
@@ -48,5 +55,6 @@ wss.on('connection', (ws, request) => {
         online --;
     })
 });
+
 
 module.exports = wss;

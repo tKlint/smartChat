@@ -11,7 +11,7 @@ const { getKey } = require('../redis/index');
 const { RESPONSE_STATUS_CODE } = require('../config');
 const { parserResult } = require('../util/responseParser');
 
-const freeApis = ['/api/login'];
+const freeApis = ['/api/login', '/api/register', '/api/sendCapcha'];
 
 /**
  * 中间件
@@ -50,6 +50,10 @@ router.post('/upload', upload.uploadFile);
 router.post('/login', user.login);
 
 router.get('/getUserInfo', user.getUerInfo);
+router.post('/sendCapcha', user.sendCapcha);
+router.post('/register', user.register);
+
+
 
 /**
  * 404
