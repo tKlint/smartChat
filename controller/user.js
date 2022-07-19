@@ -165,6 +165,31 @@ class User extends BaseController {
         const currentUser = await getKey(accessToken);
         return response.send(parserResult([JSON.parse(currentUser)], '用户查询成功'));
     }
+     /**
+     * 查找用户
+     * @param {Request} request 
+     * @param {Response} response 
+     */
+    async searchUser(request, response) {
+        const { keyword, current = 1, pageSize = 10 } = request.query;
+        if (!keyword) {
+            return response.send(parserResult([], '缺少必要参数', RESPONSE_STATUS_CODE.MISS_PARAMS));
+        }
+        connection.query(
+            'SELECT `id` as id, `nick_name` as nickName, `avatar_url` as avatarUrl, `email`, `account`, `uuid` FROM `user_info` WHERE `email` = ? OR `account` = ? LIMIT ?, ?',
+            [keyword, keyword, current - 1, current * pageSize],
+            (err, results) => {
+                if (err) {
+                    response.send(parserResult([], '查询失败', RESPONSE_STATUS_CODE.RESULT_FAILED, err.message))
+                } 
+                if (results) {
+                    response.send(parserResult(results, '查询成功'))
+                }
+            }
+        )
+        return;
+    }
+
 }
 
 

@@ -6,6 +6,7 @@ const router = express.Router();
 
 const upload = require('../controller/upload');
 const user = require('../controller/user');
+const contact = require('../controller/contact');
 const { getKey } = require('../redis/index');
 
 const { RESPONSE_STATUS_CODE } = require('../config');
@@ -24,7 +25,6 @@ router.use( async function timeLog(req, res, next) {
 		console.log('fressAPis')
 		return next();
 	}
-	console.log('next 了继续执行');
 	if (!accessToken) {
 		return res.send(parserResult([], '没有访问权限，请先登录', RESPONSE_STATUS_CODE.NO_ACCESS));
 	}
@@ -42,7 +42,6 @@ router.get('/', function (req, res) {
 
 router.post('/about', function (req, res) {
 	res.send(req.body);
-	// res.send('About birds');
 });
 
 router.post('/upload', upload.uploadFile);
@@ -52,8 +51,9 @@ router.post('/login', user.login);
 router.get('/getUserInfo', user.getUerInfo);
 router.post('/sendCapcha', user.sendCapcha);
 router.post('/register', user.register);
-
-
+router.get('/searchUser', user.searchUser);
+router.get('/getContacts', contact.getContacts);
+router.post('/sendContactRequest', contact.sendContactRequest);
 
 /**
  * 404

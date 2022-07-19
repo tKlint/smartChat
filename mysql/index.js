@@ -1,6 +1,6 @@
 const mysql = require("mysql")
 
-const connection = mysql.createConnection({
+let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '309227217',
@@ -8,8 +8,12 @@ const connection = mysql.createConnection({
     port: '3306',
     useConnectionPooling: true,
 });
-
-connection.connect();
+try {
+    connection.connect();
+} catch (error) {
+    console.log('⚠️⚠️⚠️: MYSQL链接失败,确保服务已启动🔗');
+    console.log(error.msg);
+}
 
 // function DbQuery(options, values) {
 //     let result;

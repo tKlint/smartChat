@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const { setValue } = require('../redis');
+const { setValue, getKey } = require('../redis');
 
 const { deCodeFormUrl } =  require('../util');
 
@@ -20,32 +20,44 @@ wss.on('connection', (ws, request) => {
     online ++;
     // 请求的完整url
     const { url, uuid } = request;
-
+    
     // 获取请求的参数
     const requestParms = deCodeFormUrl(url);
+    console.log(requestParms, 'requestParms')
     // 存放socket
     if (!ws.clintId) {
-        ws.clintId = requestParms.clintId;
+        ws.clintId = `${requestParms.uuid}-clint-id`;
     }
-    setValue(`${uuid}-clint-id`, ws.clintId);
+    setValue(`${requestParms.uuid}-clint-id`, ws.clintId);
 
     /**
      * incomeing message event
      */
     ws.on('message', function (message) {
-        const { clintId, data, to, type } = JSON.parse(message);
-        const messageStringify = JSON.stringify({
-            from: ws.clintId,
-            data,
-            type,
-        })
-        ws.send(messageStringify);
-        wss.clients.forEach(socket => {
-            socket.send(messageStringify);
-            // if (socket.clintId === to && socket.readyState === 1) {
-            //     socket.send(messageStringify);
-            // }
-        });
+        console.log(message,    'message')
+        try {
+            const { clintId, data, to, type } = JSON.parse(message);
+        
+            const messageStringify = JSON.stringify({
+                from: ws.clintId,
+                formUUID: requestParms.uuid,
+                data,
+                type,
+            })
+            // ws.send(messageStringify);
+            const targetClintId = `${to}-clint-id`;
+            wss.clients.forEach(socket => {
+                // socket.send(messageStringify);
+                console.log(socket.clintId, '-->', targetClintId)
+                if (socket.clintId === targetClintId && socket.readyState === 1) {
+                    console.log('找到对方')
+                    socket.send(messageStringify);
+                }
+            });
+        } catch (error) {
+            
+        }
+        
     });
     /**
      * disconnect event
